@@ -121,6 +121,26 @@ async function run() {
       res.send(result);
     })
 
+    app.patch('/tutors/:id', async (req, res) => {
+      const status = req.body.status; 
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          status: status
+        }
+      }
+      const result = await tutorCollection.updateOne(query, updatedDoc);
+      res.send(result);
+    })
+
+    app.delete('/tutors/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await tutorCollection.deleteOne(query);
+      res.send(result);
+    })
+
 
     await client.db("admin").command({ ping: 1 });
 
